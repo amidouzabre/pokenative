@@ -1,14 +1,5 @@
 import { Text, type TextProps } from "react-native";
 
-type Props = TextProps & {
-    variant?: string,
-    color?: string
-}
-
-export function ThemedText({variant, color, ...rest}: Props) {
-    return <Text {...rest}/>
-}
-
 const styles = {
     body3: {
         fontSize: 10,
@@ -39,3 +30,13 @@ const styles = {
         fontWeight: 'bold',
     },
 };
+
+type Props = TextProps & {
+    variant?: keyof typeof styles,
+    color?: string
+}
+
+export function ThemedText({variant, color, ...rest}: Props) {
+    return <Text style={styles[variant ?? 'body3']} {...rest}/>
+}
+
