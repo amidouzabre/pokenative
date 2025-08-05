@@ -6,6 +6,7 @@ export default function Index() {
     <View style={styles.container}>
       <Text>Edit app/index.tsx to edit this screen.</Text>
       <Link href="/about">A propos</Link>
+      <Link href={{pathname: '/pokemon/[id]', params: {id: 3}}}>Pokemon 3</Link>
     </View>
   );
 }
