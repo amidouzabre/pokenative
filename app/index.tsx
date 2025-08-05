@@ -16,5 +16,6 @@ export default function Index() {
 const styles = {
   container: {
     backgroundColor: 'red',
+    flex: 1,
   }
 };
