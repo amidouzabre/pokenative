@@ -1,13 +1,14 @@
 import { Card } from "@/components/Card";
+import { PokemonCard } from "@/components/pokemon/PokemonCard";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const colors = useThemeColors();
   const pokemons = Array.from({length:35}, (_, k) => ({
-    name: `Pokemon ${k+1}`,
+    name: "Pokemon name",
     id: k+1,
   }))
   return (
@@ -20,11 +21,11 @@ export default function Index() {
         <FlatList
           data={pokemons}
           numColumns={3}
-          renderItem={({item}) => (
-            <Card>
-              <Text>{item.name}</Text>
-            </Card>
-          )} keyExtractor={item => item.id.toString()}
+          contentContainerStyle={[styles.gridGap, styles.list]}
+          columnWrapperStyle={styles.gridGap}
+          renderItem={({item}) => 
+            <PokemonCard id={item.id} name={item.name} style={{flex: 1/3}}/>
+          } keyExtractor={(item) => item.id.toString()}
         />
       </Card>
     </SafeAreaView>
@@ -45,5 +46,11 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+  },
+  gridGap: {
+    gap: 8,
+  },
+  list: {
+    padding: 12,
   }
 });
