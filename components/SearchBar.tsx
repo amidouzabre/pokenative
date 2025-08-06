@@ -1,4 +1,5 @@
-import { TextInput, View } from "react-native";
+import { Row } from "@/components/Row";
+import { TextInput } from "react-native";
 
 type Props = {
     value: string,
@@ -7,8 +8,8 @@ type Props = {
 
 export function SearchBar({value, onChangeText}: Props) {
     return (
-        <View>
+        <Row>
             <TextInput placeholder="Search" value={value} onChangeText={onChangeText} />
-        </View>
+        </Row>
     )
 }

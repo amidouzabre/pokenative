@@ -5,7 +5,7 @@ type Props = ViewProps & {
     gap?: number;
 }
 
-export function Raw({style, gap, ...rest}:Props) {
+export function Row({style, gap, ...rest}:Props) {
     return <View style={[rowStyle, style, gap ? {gap: gap} : undefined]} {...rest} />    
 }
 
