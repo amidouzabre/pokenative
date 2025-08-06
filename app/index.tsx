@@ -1,9 +1,11 @@
 import { Card } from "@/components/Card";
 import { PokemonCard } from "@/components/pokemon/PokemonCard";
+import { SearchBar } from "@/components/SearchBar";
 import { ThemedText } from "@/components/ThemedText";
 import { getPokemonId } from "@/functions/pokemon";
 import { useInfinityFetchQuery } from "@/hooks/useFetchQuery";
 import { useThemeColors } from "@/hooks/useThemeColors";
+import { useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,11 +13,16 @@ export default function Index() {
   const colors = useThemeColors();
   const {data, isFetching, fetchNextPage} = useInfinityFetchQuery('/pokemon?limit=21');
   const pokemons = data?.pages.flatMap(page => page.results) ?? [];
+  const [search, setSearch] = useState('');
+
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: colors.tint}]}>
       <View style={styles.header}>
         <Image source={require('@/assets/images/pokeball.png')} width={24} height={24} />
         <ThemedText variant="headline" color="grayLight">Pokédex</ThemedText>
+      </View>
+      <View>
+        <SearchBar value={search} onChangeText={setSearch} />
       </View>
       <Card style={styles.body}>
         <FlatList
