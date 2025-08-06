@@ -13,8 +13,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Index() {
   const colors = useThemeColors();
   const {data, isFetching, fetchNextPage} = useInfinityFetchQuery('/pokemon?limit=21');
-  const pokemons = data?.pages.flatMap(page => page.results) ?? [];
   const [search, setSearch] = useState('');
+  const pokemons = data?.pages.flatMap(page => page.results) ?? [];
+  const filteredPokemons = search ? pokemons.filter(p => p.name.includes(search.toLowerCase()) || getPokemonId(p.url).toString() === search) : pokemons;
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: colors.tint}]}>
@@ -27,14 +28,14 @@ export default function Index() {
       </Row>
       <Card style={styles.body}>
         <FlatList
-          data={pokemons}
+          data={filteredPokemons}
           numColumns={3}
           contentContainerStyle={[styles.gridGap, styles.list]}
           columnWrapperStyle={styles.gridGap}
           ListFooterComponent={
            isFetching ? <ActivityIndicator color={colors.tint} /> : null
           }
-          onEndReached={() => fetchNextPage()}
+          onEndReached={search ? undefined :() => fetchNextPage()}
           renderItem={({item}) => 
             <PokemonCard id={getPokemonId(item.url)} name={item.name} style={{flex: 1/3}}/>
           } keyExtractor={(item) => item.url}
@@ -51,10 +52,12 @@ const styles = StyleSheet.create({
     padding: 4,
   },
   header: {
-    padding: 12
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
   body: {
     flex: 1,
+    marginTop: 16,
   },
   gridGap: {
     gap: 8,
