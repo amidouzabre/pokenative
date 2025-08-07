@@ -56,6 +56,7 @@ export function SortButton({value, onChange}: Props) {
                 </View>
             </Pressable>
             <Modal
+                animationType="fade"
                 transparent={true}
                 visible={isModalVisible}
                 onRequestClose={onclose}
