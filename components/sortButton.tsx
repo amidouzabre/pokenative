@@ -1,5 +1,5 @@
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 type Props = {
     value: "id" | "name";
@@ -10,7 +10,12 @@ export function SortButton({value, onChange}: Props) {
     const colors = useThemeColors();
     return (
         <View style={[styles.button, {backgroundColor: colors.grayWhite}]}>
-            
+            <Image 
+                source={
+                    value === 'id' ?
+                    require('@/assets/images/number.png') :
+                    require('@/assets/images/alpha.png')
+                } width={16} height={16} />
         </View>
     )
 }
@@ -22,5 +27,7 @@ const styles = StyleSheet.create({
         height: 32,
         borderRadius: 32,
         flex: 0,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
