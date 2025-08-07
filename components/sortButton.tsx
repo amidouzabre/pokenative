@@ -1,6 +1,7 @@
+import { Shadows } from "@/constants/Shadows";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { useState } from "react";
-import { Image, Modal, Pressable, StyleSheet, View } from "react-native";
+import { useRef, useState } from "react";
+import { Dimensions, Image, Modal, Pressable, StyleSheet, View } from "react-native";
 import { Card } from "./Card";
 import { Radio } from "./Radio";
 import { Row } from "./Row";
@@ -23,19 +24,29 @@ const options = [
 ] as const;
 
 export function SortButton({value, onChange}: Props) {
+    
+    const buttonRef = useRef<View>(null)
+    
     const colors = useThemeColors();
     const [isModalVisible, setIsModalVisible] = useState(false);
-
+    const [position, setPosition] = useState<null | {top: number, right: number}>(null);
     const onButtonPress = () => {
-       setIsModalVisible(true);
+        buttonRef.current?.measureInWindow((x, y, width, height) => {
+            setPosition({
+                top: y + height, 
+                right: Dimensions.get('window').width - x - width
+            });
+            setIsModalVisible(true);
+        })
+       
     }
     const onclose = () => {
         setIsModalVisible(false);
     }
     return (
         <>
-            <Pressable onPress={onButtonPress}>
-                <View style={[styles.button, {backgroundColor: colors.grayWhite}]}>
+            <Pressable onPress={onButtonPress} ref={buttonRef}>
+                <View ref={buttonRef} style={[styles.button, {backgroundColor: colors.grayWhite}]}>
                     <Image 
                         source={
                             value === 'id' ?
@@ -50,10 +61,9 @@ export function SortButton({value, onChange}: Props) {
                 onRequestClose={onclose}
             >
                 <Pressable style={styles.backdrop} onPress={onclose}>
-                    <View style={[styles.popup, {backgroundColor: colors.tint}]}>
+                    <View style={[styles.popup, {backgroundColor: colors.tint, ...position}]}>
                         <ThemedText style={styles.title} variant="subtitle2" color="grayLight">Sort by</ThemedText>
-                    </View>
-                    <Card style={styles.card}>
+                        <Card style={styles.card}>
                         {options.map(o => (
                             <Pressable key={o.value} onPress={() => onChange(o.value)}>
                                 <Row key={o.value} gap={8}>
@@ -63,6 +73,8 @@ export function SortButton({value, onChange}: Props) {
                             </Pressable>
                         ))}
                     </Card>
+                    </View>
+                    
                 </Pressable>
             </Modal>
         </>
@@ -84,10 +96,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.5)'
     },
     popup: {
+        position: 'absolute',
+        width: 113,
         padding: 4,
         paddingTop: 16,
         gap: 16,
         borderRadius: 12,
+        ...Shadows.dp2
     },
     title: {
         paddingLeft: 20,
