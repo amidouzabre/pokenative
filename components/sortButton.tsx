@@ -2,6 +2,7 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import { useState } from "react";
 import { Image, Modal, Pressable, StyleSheet, View } from "react-native";
 import { Card } from "./Card";
+import { Radio } from "./Radio";
 import { Row } from "./Row";
 import { ThemedText } from "./ThemedText";
 
@@ -19,7 +20,7 @@ const options = [
         label: 'Name',
         value: 'name'
     }
-]
+] as const;
 
 export function SortButton({value, onChange}: Props) {
     const colors = useThemeColors();
@@ -53,10 +54,14 @@ export function SortButton({value, onChange}: Props) {
                         <ThemedText style={styles.title} variant="subtitle2" color="grayLight">Sort by</ThemedText>
                     </View>
                     <Card style={styles.card}>
-                        {options.map(o => <Row key={o.value}>
-                            <View/>
-                            <ThemedText>{o.label}</ThemedText>
-                        </Row>)}
+                        {options.map(o => (
+                            <Pressable key={o.value} onPress={() => onChange(o.value)}>
+                                <Row key={o.value} gap={8}>
+                                    <Radio checked={value === o.value} />
+                                    <ThemedText>{o.label}</ThemedText>
+                                </Row>
+                            </Pressable>
+                        ))}
                     </Card>
                 </Pressable>
             </Modal>
