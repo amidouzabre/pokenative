@@ -1,4 +1,5 @@
 import { Card } from "@/components/Card";
+import { PokemonSpec } from "@/components/pokemon/PokemonSpec";
 import { PokemonType } from "@/components/pokemon/PokemonType";
 import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
@@ -64,6 +65,10 @@ export default function Pokemon() {
                         <ThemedText variant="subtitle1" style={{color: colorType}}>
                             About
                         </ThemedText>
+                        <Row>
+                            <PokemonSpec title="Weight" description="Weight" image={require('@/assets/images/weight.png')} />
+                            <PokemonSpec title="Height" description="Height" image={require('@/assets/images/straighten.png')} />
+                        </Row>
                         <ThemedText variant="subtitle1" style={{color: colorType}}>
                             Base stats
                         </ThemedText>
