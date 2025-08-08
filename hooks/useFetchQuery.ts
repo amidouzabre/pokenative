@@ -1,4 +1,5 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const endpoint = "https://pokeapi.co/api/v2/";
 
@@ -29,7 +30,7 @@ type API = {
         };
         types: {
             type: {
-                name: string;
+                name: keyof (typeof Colors)['type'];
             };
         }[];
     };
