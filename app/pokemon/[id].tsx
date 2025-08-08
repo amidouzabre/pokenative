@@ -5,7 +5,7 @@ import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
-import { getPokemonArtwork } from "@/functions/pokemon";
+import { formatSize, formatWeight, getPokemonArtwork } from "@/functions/pokemon";
 import { useFetchQuery } from "@/hooks/useFetchQuery";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { router, useLocalSearchParams } from "expo-router";
@@ -66,8 +66,25 @@ export default function Pokemon() {
                             About
                         </ThemedText>
                         <Row>
-                            <PokemonSpec title="Weight" description="Weight" image={require('@/assets/images/weight.png')} />
-                            <PokemonSpec title="Height" description="Height" image={require('@/assets/images/straighten.png')} />
+                            <PokemonSpec
+                                style={{borderStyle: 'solid', borderRightWidth:1, borderColor: colors.grayLight}} 
+                                title={formatWeight(pokemon?.weight)} 
+                                description="Weight" 
+                                image={require('@/assets/images/weight.png')} 
+                            />
+                            <PokemonSpec 
+                                style={{borderStyle: 'solid', borderRightWidth:1, borderColor: colors.grayLight}}
+                                title={formatSize(pokemon?.height)} 
+                                description="Size" 
+                                image={require('@/assets/images/straighten.png')} 
+                            />
+                            <PokemonSpec 
+                                title={pokemon?.moves
+                                    .slice(0, 2)
+                                    .map((m) => m.move.name)
+                                    .join("\n")} 
+                                description="Moves" 
+                            />
                         </Row>
                         <ThemedText variant="subtitle1" style={{color: colorType}}>
                             Base stats
