@@ -34,7 +34,7 @@ export default function Pokemon() {
                                 width={32} 
                                 height={32} 
                             />
-                            <ThemedText color="grayWhite" variant="headline">
+                            <ThemedText color="grayWhite" variant="headline" style={{textTransform: 'capitalize'}}>
                                 {pokemon?.name}
                             </ThemedText>
                         </Row>
