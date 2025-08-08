@@ -13,7 +13,10 @@ type Props = {
 export function PokemonCard({style, id, name}: Props){
     const colors = useThemeColors();
     return (
-        <Link href={{pathname: '/pokemon/[id]', params: {id: id}}} asChild>
+        <Link  
+            href={{pathname: '/pokemon/[id]', params: {id: id}}} 
+            asChild
+        >
             <Pressable android_ripple={{color: colors.tint, foreground: true}} style={style}>
                 <Card style={[Styles.card]}>
                     <ThemedText style={Styles.id} variant="caption" color="grayMedium">{id.toString().padStart(3, '0')}</ThemedText>
