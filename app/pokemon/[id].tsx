@@ -1,4 +1,5 @@
 import { Card } from "@/components/Card";
+import { PokemonType } from "@/components/pokemon/PokemonType";
 import { RootView } from "@/components/RootView";
 import { Row } from "@/components/Row";
 import { ThemedText } from "@/components/ThemedText";
@@ -15,6 +16,8 @@ export default function Pokemon() {
     const {data:pokemon} = useFetchQuery("/pokemon/[id]", {id: params.id})
     const mainType = pokemon?.types?.[0].type.name;
     const colorType = mainType ? Colors.type[mainType] : Colors.tint;
+
+    const types = pokemon?.types ?? [];
 
     return (
         <RootView style={{backgroundColor: colorType}}>
@@ -53,7 +56,17 @@ export default function Pokemon() {
                         height={200}
                     />
                     <Card  style={styles.card}>
-                        <ThemedText>Bonjour</ThemedText>
+                        <Row  gap={16}>
+                            {types.map(type => (
+                                <PokemonType key={type.type.name} name={type.type.name} />
+                            ))}
+                        </Row>
+                        <ThemedText variant="subtitle1" style={{color: colorType}}>
+                            About
+                        </ThemedText>
+                        <ThemedText variant="subtitle1" style={{color: colorType}}>
+                            Base stats
+                        </ThemedText>
                     </Card>
                 </View>
                 <Text>Pokemon {params.id}</Text>
@@ -87,5 +100,7 @@ const styles = StyleSheet.create({
   card: {
     paddingHorizontal: 20,
     paddingTop: 60,
+    gap: 16,
+    alignItems: 'center',
   }
 })
